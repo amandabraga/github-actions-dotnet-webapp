@@ -1,0 +1,26 @@
+name: Exercise 4 - Build .net app
+
+on:
+  push:
+  schedule:
+    - cron: '0 * * * *' # no minuto 0 de cada hora
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Download dependencies
+        run: dotnet restore **/*.csproj
+    
+      - name: Build
+        run: dotnet build **/*.csproj --no-restore
+
